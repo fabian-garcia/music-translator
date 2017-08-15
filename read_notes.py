@@ -17,9 +17,6 @@ def removeLines():
 	horiz = copy.copy(bw)
 	verti = copy.copy(bw)
 
-	print(len(horiz), len(horiz[0]))
-
-
 	horiz_size = len(horiz) // 80
 	horiz_struct = cv2.getStructuringElement(cv2.MORPH_RECT, (horiz_size, 1))
 
@@ -40,7 +37,6 @@ def removeLines():
 	cv2.imwrite(output_path + 'new.png', new_img)
 
 
-
 	for x in range(len(bw[0])):
 		for y in range(len(bw)):
 			if horiz[y][x] and not bw[y+1][x] and not bw[y-1][x]:
@@ -49,6 +45,17 @@ def removeLines():
 	cv2.imwrite(output_path + 'ex.png', bw)
 
 
+	contours = cv2.findContours(verti, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+	new_src = src.copy()
+
+	print(len(contours[1]))
+
+	for c in contours[1]:
+		x, y, w, h = cv2.boundingRect(c)
+		cv2.rectangle(new_src, (x, y), (x+w, y+h), (0, 0, 255), 2)
+
+	cv2.imwrite(output_path + 'new_src.png', new_src)
 
 
 removeLines()
