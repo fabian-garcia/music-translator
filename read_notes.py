@@ -12,7 +12,8 @@ def removeLines():
 
 	gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
 
-	bw = cv2.adaptiveThreshold(~gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 15, -2)
+	#bw = cv2.adaptiveThreshold(~gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 15, -2)
+	ret, bw = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)
 
 	horiz = copy.copy(bw)
 	verti = copy.copy(bw)
