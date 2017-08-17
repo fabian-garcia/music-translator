@@ -43,20 +43,20 @@ def removeLines():
 			if horiz[y][x] and not bw[y+1][x] and not bw[y-1][x]:
 				bw[y][x] = 0
 
-	cv2.imwrite(output_path + 'ex.png', bw)
+	cv2.imwrite(output_path + 'bw.png', bw)
 
 
 	contours = cv2.findContours(verti, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
 	new_src = src.copy()
 
-	print(len(contours[1]))
+	# cv2.drawContours(new_src, contours[1], -1, (0, 0, 255), 3)
 
 	for c in contours[1]:
 		x, y, w, h = cv2.boundingRect(c)
 		cv2.rectangle(new_src, (x, y), (x+w, y+h), (0, 0, 255), 2)
 
-	cv2.imwrite(output_path + 'new_src.png', new_src)
+	cv2.imwrite(output_path + 'contours.png', new_src)
 
 
 removeLines()
