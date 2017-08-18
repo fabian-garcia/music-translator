@@ -2,7 +2,6 @@
 
 import cv2
 import numpy as np
-import copy
 
 input_path = 'input/'
 output_path = 'output/'
@@ -18,8 +17,10 @@ def removeLines():
 	bw = cv2.erode(bw, sq_struct)
 	bw = cv2.dilate(bw, sq_struct)
 
-	horiz = copy.copy(bw)
-	verti = copy.copy(bw)
+	cv2.imwrite(output_path + 'bw.png', bw)
+
+	horiz = bw.copy()
+	verti = bw.copy()
 
 	horiz_size = len(horiz) // 80
 	horiz_struct = cv2.getStructuringElement(cv2.MORPH_RECT, (15, 1))
@@ -50,6 +51,7 @@ def removeLines():
 	# cv2.imwrite(output_path + 'verti.png', verti)
 	# # cv2.imwrite(output_path + 'new.png', new_img)
 
+	new_src = src.copy()
 	ex = bw.copy()
 
 	for x in range(len(bw[0])):
@@ -58,11 +60,7 @@ def removeLines():
 				if not (bw[y-1][x] and bw[y-2][x]) or not (bw[y+1][x] and bw[y+2][x]):
 					ex[y][x] = 0
 
-	cv2.imwrite(output_path + 'bw.png', bw)
-
 	contours = cv2.findContours(ex, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-	new_src = src.copy()
 
 	# cv2.drawContours(new_src, contours[1], -1, (0, 0, 255), 3)
 
